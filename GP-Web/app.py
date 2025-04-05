@@ -170,8 +170,8 @@ def save_appointment(name, email, phone, doctor, date, time, message):
 # SEND EMAIL CONFIRMATION
 # =========================
 def send_email_confirmation(name, recipient_email, doctor, date, time):
-    sender_email = "gpsurgery25@gmail.com"
-    sender_password = "dqjvxlqgtwzfkebk"  # App password
+    sender_email = os.environ.get("EMAIL_USER")
+    sender_password = os.environ.get("EMAIL_PASS")
 
     subject = "Appointment Confirmation – The GP Clinic"
     body = f"""
