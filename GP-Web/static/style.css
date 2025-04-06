@@ -34,6 +34,8 @@ main {
     font-weight: 500;
 }
 
+
+/* Navbar Responsive */
 @media (max-width: 992px) {
     .navbar-collapse {
         background: rgba(255, 255, 255, 0.5); /* Slightly transparent white */
@@ -76,12 +78,15 @@ main {
 
 /* Center Opening Hours in Navbar */
 .opening-hours-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     position: absolute;
     left: 50%;
-    transform: translateX(-50%);
     top: 50%;
     transform: translate(-50%, -50%);
     white-space: nowrap;
+
 }
 
 /* Opening Hours Section (Centered in Navbar) */
@@ -109,6 +114,12 @@ main {
     padding: 100px 0;
 }
 
+@media (max-width: 992px) {
+    .hero-section {
+        padding: 80px 20px;
+    }
+}
+
 /* Call Section */
 .call-section {
     background: white;
@@ -118,8 +129,6 @@ main {
     border-radius: 10px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
     max-width: 700px;
-    margin-left: auto;
-    margin-right: auto;
 }
 
 .call-box {
@@ -154,6 +163,21 @@ main {
     width: 25px;
     margin-right: 10px;
 }
+@media (max-width: 992px) {
+    .call-box {
+        font-size: 1.2rem;
+        padding: 10px 15px;
+    }
+
+    .address-box {
+        font-size: 1rem;
+    }
+
+    .call-box img,
+    .address-box img {
+        width: 20px;
+    }
+}
 
 /* Footer */
 .footer {
@@ -184,47 +208,13 @@ main {
     padding: 15px;
 }
 
-/* Title & Icon Alignment */
-.disclaimer-text h4 {
-    display: flex;
-    align-items: center; /* Ensures icon and text stay on the same line */
-    justify-content: center;
-    gap: 8px; /* Adds space between icon and text */
-    font-size: 1.2rem;
-    font-weight: bold;
-    color: #214f54; /* Keeps existing title color */
-}
-
-/* Small Medical Icon */
 .medical-icon {
-    width: 20px; /* Matches size of uppercase "A" */
+    width: 20px;
     height: auto;
 }
 
-/* Responsive Adjustments */
 @media (max-width: 992px) {
-    .hero-section {
-        padding: 80px 20px;
-    }
-
-    .call-box {
-        font-size: 1.2rem;
-        padding: 10px 15px;
-    }
-
-    .address-box {
-        font-size: 1rem;
-    }
-
-    .call-box img, .address-box img {
-        width: 20px;
-    }
-
     .medical-disclaimer {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 10px;
         margin-top: 20px;
         padding: 15px;
         border-radius: 8px;
@@ -232,9 +222,9 @@ main {
 
     .medical-icon {
         width: 20px;
-        height: auto;
     }
 }
+
 /* Book an Appointment Button */
 .book-appointment-btn {
     background-color: #008080 !important; /* Teal */
