@@ -9,7 +9,6 @@ body {
     min-height: 100vh;
 }
 
-/* Ensure Footer Stays at the Bottom */
 html {
     height: 100%;
 }
@@ -18,7 +17,9 @@ main {
     flex-grow: 1;
 }
 
-/* Navigation Bar */
+/* ====================
+   NAVIGATION BAR
+==================== */
 .navbar {
     background-color: #d3d3d3 !important;
     padding: 10px 0;
@@ -34,11 +35,35 @@ main {
     font-weight: 500;
 }
 
+.opening-hours-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    white-space: nowrap;
+}
+
+.opening-hours {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.90rem;
+    font-weight: 500;
+    color: black;
+}
+
+.time-icon {
+    width: 18px;
+    height: auto;
+}
 
 /* Navbar Responsive */
 @media (max-width: 992px) {
     .navbar-collapse {
-        background: rgba(255, 255, 255, 0.5); /* Slightly transparent white */
+        background: rgba(255, 255, 255, 0.5);
         border-radius: 8px;
         padding: 10px;
         position: absolute;
@@ -50,7 +75,6 @@ main {
     }
 
     .navbar-nav {
-        display: flex;
         flex-direction: column;
         align-items: center;
     }
@@ -62,51 +86,28 @@ main {
     }
 
     .navbar-nav .nav-link {
-        color: rgb(25, 25, 25) !important;
-        font-weight: bold;
         width: 100%;
         padding: 10px;
         border-radius: 5px;
-        transition: background-color 0.3s ease-in-out;
+        color: rgb(25, 25, 25) !important;
+        font-weight: bold;
     }
 
     .navbar-nav .nav-link:hover {
-       
         color: rgb(85, 110, 104) !important;
+    }
+
+    /* Option B - Stack opening hours above logo */
+    .opening-hours-container {
+        position: static;
+        transform: none;
+        margin-top: 10px;
     }
 }
 
-/* Center Opening Hours in Navbar */
-.opening-hours-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    white-space: nowrap;
-
-}
-
-/* Opening Hours Section (Centered in Navbar) */
-.opening-hours {
-    display: flex;
-    align-items: center;
-    gap: 8px; /* Space between icon and text */
-    font-size: 0.90rem;
-    font-weight: 500;
-    color: black;
-}
-
-/* Small Time Icon */
-.time-icon {
-    width: 18px; /* Small icon */
-    height: auto;
-}
-
-
-/* Hero Section */
+/* ====================
+   HERO SECTION
+==================== */
 .hero-section {
     background: url('images/blue.jpg') center/cover no-repeat;
     color: white;
@@ -120,12 +121,14 @@ main {
     }
 }
 
-/* Call Section */
+/* ====================
+   CALL SECTION
+==================== */
 .call-section {
     background: white;
     padding: 50px 0;
     text-align: center;
-    margin: 50px 0;
+    margin: 50px auto;
     border-radius: 10px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
     max-width: 700px;
@@ -137,7 +140,7 @@ main {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 15px 20px;
+    padding: 12px 20px;
     border-radius: 8px;
     font-size: 1.5rem;
     font-weight: bold;
@@ -163,6 +166,7 @@ main {
     width: 25px;
     margin-right: 10px;
 }
+
 @media (max-width: 992px) {
     .call-box {
         font-size: 1.2rem;
@@ -179,7 +183,9 @@ main {
     }
 }
 
-/* Footer */
+/* ====================
+   FOOTER SECTION
+==================== */
 .footer {
     background: url('images/blue.jpg') center/cover no-repeat;
     color: white;
@@ -189,7 +195,6 @@ main {
     margin-top: auto;
 }
 
-/* Footer Line */
 .footer-line {
     border: none;
     height: 2px;
@@ -198,7 +203,6 @@ main {
     margin: 15px auto;
 }
 
-/* Medical Disclaimer Section */
 .medical-disclaimer {
     display: flex;
     flex-direction: column;
@@ -225,10 +229,12 @@ main {
     }
 }
 
-/* Book an Appointment Button */
+/* ====================
+   BUTTONS
+==================== */
 .book-appointment-btn {
-    background-color: #008080 !important; /* Teal */
-    color: white !important; /* White text */
+    background-color: #008080 !important;
+    color: white !important;
     border: none !important;
     padding: 10px 20px;
     font-size: 1rem;
@@ -236,26 +242,23 @@ main {
 }
 
 .book-appointment-btn:hover {
-    background-color: #006666 !important; /* Darker teal on hover */
+    background-color: #006666 !important;
 }
-/* Register & Login Buttons (Black Text by Default, Teal on Hover) */
+
 .login-btn,
 .register-btn {
     background-color: transparent !important;
     border: none !important;
-    color: black !important; /* Black text */
+    color: black !important;
     padding: 8px 15px;
     border-radius: 5px;
     transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
 }
 
-/* Hover Effect (Only in Desktop View) */
 @media (min-width: 992px) {
     .login-btn:hover,
     .register-btn:hover {
-        background-color: #008080 !important; /* Teal Background */
+        background-color: #008080 !important;
         color: white !important;
     }
 }
-
-
