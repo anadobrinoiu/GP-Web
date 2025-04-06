@@ -9,6 +9,7 @@ body {
     min-height: 100vh;
 }
 
+/* Ensure Footer Stays at the Bottom */
 html {
     height: 100%;
 }
@@ -17,9 +18,7 @@ main {
     flex-grow: 1;
 }
 
-/* ====================
-   NAVIGATION BAR
-==================== */
+/* Navigation Bar */
 .navbar {
     background-color: #d3d3d3 !important;
     padding: 10px 0;
@@ -35,35 +34,9 @@ main {
     font-weight: 500;
 }
 
-.opening-hours-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    white-space: nowrap;
-}
-
-.opening-hours {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 0.90rem;
-    font-weight: 500;
-    color: black;
-}
-
-.time-icon {
-    width: 18px;
-    height: auto;
-}
-
-/* Navbar Responsive */
 @media (max-width: 992px) {
     .navbar-collapse {
-        background: rgba(255, 255, 255, 0.5);
+        background: rgba(255, 255, 255, 0.5); /* Slightly transparent white */
         border-radius: 8px;
         padding: 10px;
         position: absolute;
@@ -75,6 +48,7 @@ main {
     }
 
     .navbar-nav {
+        display: flex;
         flex-direction: column;
         align-items: center;
     }
@@ -86,28 +60,48 @@ main {
     }
 
     .navbar-nav .nav-link {
+        color: rgb(25, 25, 25) !important;
+        font-weight: bold;
         width: 100%;
         padding: 10px;
         border-radius: 5px;
-        color: rgb(25, 25, 25) !important;
-        font-weight: bold;
+        transition: background-color 0.3s ease-in-out;
     }
 
     .navbar-nav .nav-link:hover {
+       
         color: rgb(85, 110, 104) !important;
-    }
-
-    /* Option B - Stack opening hours above logo */
-    .opening-hours-container {
-        position: static;
-        transform: none;
-        margin-top: 10px;
     }
 }
 
-/* ====================
-   HERO SECTION
-==================== */
+/* Center Opening Hours in Navbar */
+.opening-hours-container {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 50%;
+    transform: translate(-50%, -50%);
+    white-space: nowrap;
+}
+
+/* Opening Hours Section (Centered in Navbar) */
+.opening-hours {
+    display: flex;
+    align-items: center;
+    gap: 8px; /* Space between icon and text */
+    font-size: 0.90rem;
+    font-weight: 500;
+    color: black;
+}
+
+/* Small Time Icon */
+.time-icon {
+    width: 18px; /* Small icon */
+    height: auto;
+}
+
+
+/* Hero Section */
 .hero-section {
     background: url('images/blue.jpg') center/cover no-repeat;
     color: white;
@@ -115,23 +109,17 @@ main {
     padding: 100px 0;
 }
 
-@media (max-width: 992px) {
-    .hero-section {
-        padding: 80px 20px;
-    }
-}
-
-/* ====================
-   CALL SECTION
-==================== */
+/* Call Section */
 .call-section {
     background: white;
     padding: 50px 0;
     text-align: center;
-    margin: 50px auto;
+    margin: 50px 0;
     border-radius: 10px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
     max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .call-box {
@@ -140,7 +128,7 @@ main {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 12px 20px;
+    padding: 15px 20px;
     border-radius: 8px;
     font-size: 1.5rem;
     font-weight: bold;
@@ -167,25 +155,7 @@ main {
     margin-right: 10px;
 }
 
-@media (max-width: 992px) {
-    .call-box {
-        font-size: 1.2rem;
-        padding: 10px 15px;
-    }
-
-    .address-box {
-        font-size: 1rem;
-    }
-
-    .call-box img,
-    .address-box img {
-        width: 20px;
-    }
-}
-
-/* ====================
-   FOOTER SECTION
-==================== */
+/* Footer */
 .footer {
     background: url('images/blue.jpg') center/cover no-repeat;
     color: white;
@@ -195,6 +165,7 @@ main {
     margin-top: auto;
 }
 
+/* Footer Line */
 .footer-line {
     border: none;
     height: 2px;
@@ -203,6 +174,7 @@ main {
     margin: 15px auto;
 }
 
+/* Medical Disclaimer Section */
 .medical-disclaimer {
     display: flex;
     flex-direction: column;
@@ -212,13 +184,47 @@ main {
     padding: 15px;
 }
 
+/* Title & Icon Alignment */
+.disclaimer-text h4 {
+    display: flex;
+    align-items: center; /* Ensures icon and text stay on the same line */
+    justify-content: center;
+    gap: 8px; /* Adds space between icon and text */
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #214f54; /* Keeps existing title color */
+}
+
+/* Small Medical Icon */
 .medical-icon {
-    width: 20px;
+    width: 20px; /* Matches size of uppercase "A" */
     height: auto;
 }
 
+/* Responsive Adjustments */
 @media (max-width: 992px) {
+    .hero-section {
+        padding: 80px 20px;
+    }
+
+    .call-box {
+        font-size: 1.2rem;
+        padding: 10px 15px;
+    }
+
+    .address-box {
+        font-size: 1rem;
+    }
+
+    .call-box img, .address-box img {
+        width: 20px;
+    }
+
     .medical-disclaimer {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
         margin-top: 20px;
         padding: 15px;
         border-radius: 8px;
@@ -226,15 +232,13 @@ main {
 
     .medical-icon {
         width: 20px;
+        height: auto;
     }
 }
-
-/* ====================
-   BUTTONS
-==================== */
+/* Book an Appointment Button */
 .book-appointment-btn {
-    background-color: #008080 !important;
-    color: white !important;
+    background-color: #008080 !important; /* Teal */
+    color: white !important; /* White text */
     border: none !important;
     padding: 10px 20px;
     font-size: 1rem;
@@ -242,23 +246,26 @@ main {
 }
 
 .book-appointment-btn:hover {
-    background-color: #006666 !important;
+    background-color: #006666 !important; /* Darker teal on hover */
 }
-
+/* Register & Login Buttons (Black Text by Default, Teal on Hover) */
 .login-btn,
 .register-btn {
     background-color: transparent !important;
     border: none !important;
-    color: black !important;
+    color: black !important; /* Black text */
     padding: 8px 15px;
     border-radius: 5px;
     transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
 }
 
+/* Hover Effect (Only in Desktop View) */
 @media (min-width: 992px) {
     .login-btn:hover,
     .register-btn:hover {
-        background-color: #008080 !important;
+        background-color: #008080 !important; /* Teal Background */
         color: white !important;
     }
 }
+
+
