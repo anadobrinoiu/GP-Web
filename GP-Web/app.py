@@ -43,11 +43,11 @@ def register():
 
 @app.route("/register", methods=["POST"])
 def register_user():
-    data = request.get_json()
-    name = data.get("name", "").strip()
-    email = data.get("email", "").strip()
-    password = data.get("password", "").strip()
-    role = data.get("role", "").strip()
+    name = request.form.get("name", "").strip()
+    email = request.form.get("email", "").strip()
+    password = request.form.get("password", "").strip()
+    role = request.form.get("role", "").strip()
+
 
     if not name or not email or not password or not role:
         return {"error": "All fields are required"}, 400
@@ -111,7 +111,7 @@ def appointments():
         flash("Appointment saved. Confirmation email sent.", "success")
         return redirect(url_for("appointments"))
 
-    # 🔄 Dynamically load doctors from DB
+    # Dynamically load doctors from DB
     with get_db_connection() as conn:
         doctors = conn.execute("SELECT name FROM users WHERE role = 'doctor'").fetchall()
 
@@ -170,8 +170,8 @@ def save_appointment(name, email, phone, doctor, date, time, message):
 # SEND EMAIL CONFIRMATION
 # =========================
 def send_email_confirmation(name, recipient_email, doctor, date, time):
-    sender_email = os.environ.get("EMAIL_USER")
-    sender_password = os.environ.get("EMAIL_PASS")
+    sender_email = "gpsurgery25@gmail.com"
+    sender_password = "dqjvxlqgtwzfkebk"  # App password
 
     subject = "Appointment Confirmation – The GP Clinic"
     body = f"""
