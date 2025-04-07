@@ -70,25 +70,28 @@ def register_user():
 @app.route("/login", methods=["GET"])
 def login():
     return render_template("login.html")
-
 @app.route("/login", methods=["POST"])
 def login_user():
-    data = request.get_json() 
-    email = request.form.get("email", "").strip()
-    password = request.form.get("password", "").strip()
+    try:
+        data = request.get_json(force=True)  # force=True ensures JSON is parsed even if headers are weird
+        email = data.get("email", "").strip()
+        password = data.get("password", "").strip()
 
-    with get_db_connection() as conn:
-        user = conn.execute("SELECT * FROM users WHERE email = ?", (email,)).fetchone()
+        with get_db_connection() as conn:
+            user = conn.execute("SELECT * FROM users WHERE email = ?", (email,)).fetchone()
 
-    if user and check_password_hash(user["password"], password):
-        session["user_id"] = user["id"]
-        session["role"] = user["role"]
-        session["name"] = user["name"]
+        if user and check_password_hash(user["password"], password):
+            session["user_id"] = user["id"]
+            session["role"] = user["role"]
+            session["name"] = user["name"]
+            return {"message": "Login successful"}, 200
+        else:
+            return {"error": "Invalid email or password"}, 401
 
-        return redirect(url_for("dashboard"))
-    else:
-      
-        return redirect(url_for("login"))
+    except Exception as e:
+        print("[LOGIN ERROR]", e)
+        return {"error": "Internal server error"}, 500
+
 
 @app.route("/logout")
 def logout():
