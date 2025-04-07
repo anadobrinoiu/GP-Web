@@ -16,12 +16,14 @@
         }
 
         .form-wrapper {
+            max-width: 450px;
+            width: 100%;
+            height:500px;
             background-color: white;
             padding: 30px;
             border-radius: 8px;
             box-shadow: 0 0 8px rgba(0, 0, 0, 0.05);
             margin-bottom: 10px;
-            width: 100%;
         }
 
         .login-box {
@@ -33,7 +35,6 @@
             text-align: center;
             box-shadow: 0 0 8px rgba(0, 0, 0, 0.05);
             font-size: 0.95rem;
-            width: 100%;
         }
 
         .form-control {
@@ -69,44 +70,38 @@
 </head>
 <body>
 
-
-        <div class="text-start ms-3 mt-3">
-            <a href="{{ url_for('home') }}" class="btn btn-outline-secondary">Home</a>
+    <div class="container mt-5 d-flex flex-column align-items-center">
+        <div class="form-wrapper">
+            <h2 class="text-center mb-5">Register</h2>
+            <form id="registerForm">
+                <div class="mb-3">
+                    <input type="text" class="form-control" id="name" name="name" placeholder="Full Name" required>
+                </div>
+                <div class="mb-3">
+                    <input type="email" class="form-control" id="email" name="email" placeholder="Email" required>
+                </div>
+                <div class="mb-3">
+                    <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
+                </div>
+                <div class="mb-3">
+                    <select class="form-control" id="role" name="role" required>
+                        <option value="" disabled selected>Select Role</option>
+                        <option value="patient">Patient</option>
+                        <option value="doctor">Doctor</option>
+                      </select>
+                      
+                      
+                </div>
+                <button type="submit" class="btn btn-primary w-100">Register</button>
+                <div class="legal-text text-center">
+                    By registering, you agree to our <a href="#">Terms</a>, <a href="#">Privacy</a>, and <a href="#">Cookies Policy</a>.
+                </div>
+            </form>
         </div>
-    <div class="container mt-5">
-        <div class="row justify-content-center">
-            <div class="col-md-6 col-lg-5">
-                <div class="form-wrapper">
-                    <h2 class="text-center mb-4">Register</h2>
-                    <form id="registerForm">
-                        <div class="mb-3">
-                            <input type="text" class="form-control" id="name" name="name" placeholder="Full Name" required>
-                        </div>
-                        <div class="mb-3">
-                            <input type="email" class="form-control" id="email" name="email" placeholder="Email" required>
-                        </div>
-                        <div class="mb-3">
-                            <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
-                        </div>
-                        <div class="mb-3">
-                            <select class="form-control" id="role" name="role" required>
-                                <option value="" disabled selected>Select Role</option>
-                                <option value="patient">Patient</option>
-                                <option value="doctor">Doctor</option>
-                            </select>
-                        </div>
-                        <button type="submit" class="btn btn-primary w-100">Register</button>
-                        <div class="legal-text text-center">
-                            By registering, you agree to our <a href="#">Terms</a>, <a href="#">Privacy</a>, and <a href="#">Cookies Policy</a>.
-                        </div>
-                    </form>
-                </div>
-    
-                <div class="login-box mt-3">
-                    <p class="mb-1">Have an account?</p>
-                    <a href="{{ url_for('login') }}">Log in</a>
-                </div>
-            </div>
+
+        <div class="login-box">
+            <p class="mb-1">Have an account?</p>
+            <a href="{{ url_for('login') }}">Log in</a>
         </div>
     </div>
 
