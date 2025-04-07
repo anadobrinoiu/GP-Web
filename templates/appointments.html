@@ -11,7 +11,7 @@
     <!-- Corrected Paths for CSS & JS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='appointments.css') }}">
-    <script src="{{ url_for('static', filename='script.js') }}" defer></script>
+
 </head>
 
 <body>
@@ -63,6 +63,28 @@
     <div class="container appointment-section">
         <div class="form-container">
             <h2 class="text-center mb-4">Fill in Your Details</h2>
+
+            {% if conflict %}
+            <div class="alert alert-warning alert-dismissible fade show mt-3" role="alert">
+                <strong>Slot already taken.</strong> Please try another time or date.
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            {% endif %}
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+              {% for category, message in messages %}
+                <div class="alert alert-{{ category }} alert-dismissible fade show mt-3" role="alert">
+                  {{ message }}
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+              {% endfor %}
+            {% endif %}
+          {% endwith %}          
+
+            <!-- Error alert container for conflict messages -->
+            <div id="errorAlertContainer"></div>
+
             <form id="appointmentForm" method="POST" action="/appointments">
 
                 <div class="row">
@@ -85,9 +107,9 @@
                         <label for="doctor" class="form-label">Select Doctor</label>
                         <select class="form-control" id="doctor" name="doctor" required>
                             <option value="" disabled selected>Select a doctor</option>
-                            <option value="Jane Smith">Jane Smith</option>
-                            <option value="John Johnson">John Johnson</option>
-                            <option value="Emily Williams">Emily Williams</option>
+                            <option value="Dr. Jane Smith">Dr. Jane Smith</option>
+                            <option value="Dr. John Johnson">Dr. John Johnson</option>
+                            <option value="Dr. Emily Williams">Dr. Emily Williams</option>
                         </select>
                         
                         
@@ -102,10 +124,11 @@
                     <div class="col-md-6">
                         <label for="time" class="form-label">Preferred Time</label>
                         <div class="time-input-container">
-                            <input type="time" id="time" name="time" class="form-control" required step="900" min="08:30" max="18:00">
-
+                            <input type="text" id="time" name="timeDisplay" class="form-control" required placeholder="Select a time" readonly>
+                            <input type="hidden" id="timeValue" name="time">
                             <div class="time-dropdown" id="timeDropdown"></div>
                         </div>
+                        <small class="form-text text-muted">Subject to availability.</small>
                     </div>
                 </div>
 

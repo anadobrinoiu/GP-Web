@@ -9,7 +9,6 @@ body {
     min-height: 100vh;
 }
 
-/* Ensure Footer Stays at the Bottom */
 html {
     height: 100%;
 }
@@ -78,7 +77,6 @@ main {
 .opening-hours-container {
     position: absolute;
     left: 50%;
-    transform: translateX(-50%);
     top: 50%;
     transform: translate(-50%, -50%);
     white-space: nowrap;
@@ -192,12 +190,12 @@ main {
     gap: 8px; /* Adds space between icon and text */
     font-size: 1.2rem;
     font-weight: bold;
-    color: #214f54; /* Keeps existing title color */
+    color: #214f54; 
 }
 
 /* Small Medical Icon */
 .medical-icon {
-    width: 20px; /* Matches size of uppercase "A" */
+    width: 20px; 
     height: auto;
 }
 
@@ -221,10 +219,6 @@ main {
     }
 
     .medical-disclaimer {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 10px;
         margin-top: 20px;
         padding: 15px;
         border-radius: 8px;
@@ -267,5 +261,19 @@ main {
         color: white !important;
     }
 }
-
+/* Move opening hours below navbar on mobile */
+@media (max-width: 768px) {
+    .opening-hours-container {
+      position: static;
+      transform: none;
+      margin-top: 10px;
+      text-align: center;
+    }
+  
+    .opening-hours {
+      justify-content: center;
+      font-size: 0.9rem;
+      padding-bottom: 10px;
+    }
+  }
 
