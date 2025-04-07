@@ -116,7 +116,7 @@
                 const result = await res.json();
 
                 if (res.ok) {
-                    window.location.href = "/appointments";
+                    window.location.href = "/dashboard";
                 } else {
                     document.getElementById("error").textContent = result.error || "Login failed.";
                 }
