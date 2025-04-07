@@ -73,6 +73,7 @@ def login():
 
 @app.route("/login", methods=["POST"])
 def login_user():
+    data = request.get_json() 
     email = request.form.get("email", "").strip()
     password = request.form.get("password", "").strip()
 
@@ -83,10 +84,10 @@ def login_user():
         session["user_id"] = user["id"]
         session["role"] = user["role"]
         session["name"] = user["name"]
-        print(f"[LOGIN] User: {session['name']} | Role: {session['role']}")
+
         return redirect(url_for("dashboard"))
     else:
-        flash("Invalid email or password", "danger")
+      
         return redirect(url_for("login"))
 
 @app.route("/logout")
