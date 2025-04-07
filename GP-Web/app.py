@@ -7,6 +7,7 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
 app = Flask(__name__)
+app.config['SESSION_COOKIE_SECURE'] = True  # Required for sessions to work over HTTPS
 app.secret_key = "3b1f9a4d0e6243c6ac91e41a6b1ec23f"
 DB_NAME = "database.db"
 
