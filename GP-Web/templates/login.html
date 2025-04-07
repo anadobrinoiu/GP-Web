@@ -16,10 +16,13 @@
         }
 
         .form-wrapper {
+            max-width: 450px;
+            width: 100%;
             background-color: white;
             padding: 30px;
             border-radius: 8px;
             box-shadow: 0 0 8px rgba(0, 0, 0, 0.05);
+            margin-bottom: 10px;
         }
 
         .login-box {
@@ -27,7 +30,7 @@
             border: 1px solid #ddd;
             padding: 15px;
             border-radius: 8px;
-
+            width: 450px;
             text-align: center;
             box-shadow: 0 0 8px rgba(0, 0, 0, 0.05);
             font-size: 0.95rem;
@@ -71,30 +74,26 @@
             <a href="{{ url_for('home') }}" class="btn btn-outline-secondary">Home</a>
         </div>
 
-        <div class="container mt-5">
-            <div class="row justify-content-center">
-                <div class="col-md-6 col-lg-5">
-                    <div class="form-wrapper mb-3">
-                        <h2 class="text-center mb-4">Login</h2>
-                        <form id="loginForm" method="POST" action="/login">
-                            <div class="mb-3">
-                                <input type="email" class="form-control" id="email" name="email" placeholder="Email" required>
-                            </div>
-                            <div class="mb-3">
-                                <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
-                            </div>
-                            <button type="submit" class="btn btn-primary w-100">Login</button>
-                            <div id="error" class="error-msg text-center"></div>
-                        </form>
-                    </div>
-    
-                    <div class="login-box">
-                        <p class="mb-1">Don't have an account?</p>
-                        <a href="{{ url_for('register') }}">Sign up</a>
-                    </div>
+    <div class="container mt-5 d-flex flex-column align-items-center">
+        <div class="form-wrapper">
+            <h2 class="text-center mb-5">Login</h2>
+            <form method="POST" action="/login">
+                <div class="mb-3">
+                    <input type="email" class="form-control" name="email" placeholder="Email" required>
                 </div>
-            </div>
+                <div class="mb-3">
+                    <input type="password" class="form-control" name="password" placeholder="Password" required>
+                </div>
+                <button type="submit" class="btn btn-primary w-100">Login</button>
+            </form>
+            
         </div>
+
+        <div class="login-box">
+            <p class="mb-1">Don't have an account?</p>
+            <a href="{{ url_for('register') }}">Sign up</a>
+        </div>
+    </div>
 
     <!-- Script to handle login -->
     <script>
