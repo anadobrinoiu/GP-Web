@@ -69,15 +69,15 @@
     </style>
 </head>
 <body>
-    
-        <!-- Home Button -->
-        <div class="text-start ms-3 mt-3">
-            <a href="{{ url_for('home') }}" class="btn btn-outline-secondary">Home</a>
-        </div>    
 
-    <div class="container mt-5 d-flex flex-column align-items-center">
+    <!-- Home Button -->
+    <div class="text-start ms-3 mt-3">
+        <a href="{{ url_for('home') }}" class="btn btn-outline-secondary">Home</a>
+    </div>
+
+    <div class="container mt-3 d-flex flex-column align-items-center">
         <div class="form-wrapper">
-            <h2 class="text-center mb-5">Register</h2>
+            <h2 class="text-center mb-4">Register</h2>
 
             <!-- Flash message support -->
             {% with messages = get_flashed_messages(with_categories=true) %}
@@ -90,7 +90,6 @@
               {% endif %}
             {% endwith %}
 
- 
             <form method="POST" action="/register">
                 <div class="mb-3">
                     <input type="text" class="form-control" id="name" name="name" placeholder="Full Name" required>
