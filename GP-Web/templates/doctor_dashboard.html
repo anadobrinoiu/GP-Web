@@ -103,8 +103,24 @@
     <div class="dashboard-wrapper">
         <div class="header">
             <h2>Welcome, Dr. {{ session['name'] }}!</h2>
-            <a href="{{ url_for('logout') }}" class="logout-btn">Logout</a>
+            <div>
+                <form action="{{ url_for('delete_account') }}" method="POST" style="display: inline;" onsubmit="return confirm('Are you sure you want to delete your account? This cannot be undone.');">
+                    <button type="submit" class="btn btn-danger me-2">Delete Account</button>
+                </form>
+                <a href="{{ url_for('logout') }}" class="logout-btn">Logout</a>
+            </div>
         </div>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }} alert-dismissible fade show mt-3" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+        {% endwith %}
 
         <div class="section-title">Your Appointments</div>
 
@@ -121,10 +137,11 @@
                 </form>
             </div>
         {% endfor %}
-    {% else %}
-        <p>No appointments found.</p>
-    {% endif %}
-    
+        {% else %}
+            <p>No appointments found.</p>
+        {% endif %}
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" defer></script>
 </body>
 </html>
