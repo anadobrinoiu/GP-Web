@@ -1,14 +1,15 @@
-from flask import Flask, render_template, request, redirect, url_for, flash, session
+from flask import Flask, render_template, request, redirect, url_for, flash, session, jsonify
 from werkzeug.security import generate_password_hash, check_password_hash
 import sqlite3
 import os
 import smtplib
+import re
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
+from flask import abort
 
 app = Flask(__name__)
-app.config['SESSION_COOKIE_SECURE'] = True  # Required for sessions to work over HTTPS
-app.secret_key = "3b1f9a4d0e6243c6ac91e41a6b1ec23f"
+app.secret_key = os.getenv("SECRET_KEY", "3b1f9a4d0e6243c6ac91e41a6b1ec23f")  # Use env var in prod
 DB_NAME = "database.db"
 
 # =========================
@@ -22,6 +23,19 @@ def init_db():
             conn.executescript(sql)
             conn.commit()
         print("Database initialized.")
+
+class AppointmentAvailabilityException(Exception):
+    pass
+
+def check_availability(name, email, doctor, date, time):
+    with get_db_connection() as conn:
+        conflict = conn.execute("""
+            SELECT * FROM appointments 
+            WHERE doctor = ? AND appointment_date = ? AND appointment_time = ?
+        """, (doctor, date, time)).fetchone()
+
+    if conflict:
+        raise AppointmentAvailabilityException("Slot not available")
 
 # =========================
 # DB CONNECTION
@@ -44,11 +58,11 @@ def register():
 
 @app.route("/register", methods=["POST"])
 def register_user():
-    name = request.form.get("name", "").strip()
-    email = request.form.get("email", "").strip()
-    password = request.form.get("password", "").strip()
-    role = request.form.get("role", "").strip()
-
+    data = request.get_json()
+    name = data.get("name", "").strip()
+    email = data.get("email", "").strip()
+    password = data.get("password", "").strip()
+    role = data.get("role", "").strip()
 
     if not name or not email or not password or not role:
         return {"error": "All fields are required"}, 400
@@ -71,10 +85,11 @@ def register_user():
 @app.route("/login", methods=["GET"])
 def login():
     return render_template("login.html")
+
 @app.route("/login", methods=["POST"])
 def login_user():
     try:
-        data = request.get_json(force=True)  # force=True ensures JSON is parsed even if headers are weird
+        data = request.get_json(force=True)
         email = data.get("email", "").strip()
         password = data.get("password", "").strip()
 
@@ -88,11 +103,9 @@ def login_user():
             return {"message": "Login successful"}, 200
         else:
             return {"error": "Invalid email or password"}, 401
-
     except Exception as e:
         print("[LOGIN ERROR]", e)
         return {"error": "Internal server error"}, 500
-
 
 @app.route("/logout")
 def logout():
@@ -102,24 +115,40 @@ def logout():
 @app.route("/appointments", methods=["GET", "POST"])
 def appointments():
     if request.method == "POST":
-        name = request.form.get("name", "").strip()
-        email = request.form.get("email", "").strip()
-        phone = request.form.get("phone", "").strip()
-        doctor = request.form.get("doctor", "").strip()
-        date = request.form.get("date", "").strip()
-        time = request.form.get("time", "").strip()
-        message = request.form.get("message", "").strip()
+        try:
+            name = request.form.get("name", "").strip()
+            email = request.form.get("email", "").strip()
+            phone = request.form.get("phone", "").strip()
+            doctor = request.form.get("doctor", "").strip()
+            date = request.form.get("date", "").strip()
+            time = request.form.get("time", "").strip()
+            message = request.form.get("message", "").strip()
 
-        save_appointment(name, email, phone, doctor, date, time, message)
-        send_email_confirmation(name, email, doctor, date, time)
+            if not all([name, email, phone, doctor, date, time]):
+                return jsonify({"error": "All fields except notes are required."}), 400
+            
+            if not re.match(r"[^@]+@[^@]+\.[^@]+", email):
+                return jsonify({"error": "Invalid email format."}), 400
+            if not re.match(r"^\+?\d{10,15}$", phone):
+                return jsonify({"error": "Invalid phone number format."}), 400
 
-        flash("Appointment saved. Confirmation email sent.", "success")
-        return redirect(url_for("appointments"))
+            check_availability(name, email, doctor, date, time)
+            save_appointment(name, email, phone, doctor, date, time, message)
+            send_email_confirmation(name, email, doctor, date, time)
+            return jsonify({"message": "Appointment booked! Confirmation email sent."}), 200
+        except AppointmentAvailabilityException:
+            return jsonify({"error": "This time slot is already taken."}), 409
+        except smtplib.SMTPException as e:
+            print(f"Email error: {e}")
+            return jsonify({"error": "Appointment booked, but email confirmation failed."}), 500
+        except sqlite3.Error as e:
+            print(f"Database error: {e}")
+            return jsonify({"error": "Database error occurred. Please try again later."}), 500
+        except Exception as e:
+            print(f"Unexpected error: {e}")
+            return jsonify({"error": "An unexpected error occurred."}), 500
 
-    # Dynamically load doctors from DB
-    with get_db_connection() as conn:
-        doctors = conn.execute("SELECT name FROM users WHERE role = 'doctor'").fetchall()
-
+    doctors = get_doctors()
     return render_template("appointments.html", doctors=doctors)
 
 @app.route("/dashboard")
@@ -158,18 +187,17 @@ def add_note(appointment_id):
 # =========================
 def save_appointment(name, email, phone, doctor, date, time, message):
     try:
-        with sqlite3.connect(DB_NAME, timeout=10) as conn:
+        with get_db_connection() as conn:
             cursor = conn.cursor()
-            doctor_full = f"Dr. {doctor}"  # Prefix before saving
             cursor.execute("""
                 INSERT INTO appointments (patient_name, email, phone, doctor, appointment_date, appointment_time, message)
                 VALUES (?, ?, ?, ?, ?, ?, ?)
-            """, (name, email, phone, doctor_full, date, time, message))
+            """, (name, email, phone, doctor, date, time, message))
             conn.commit()
             print("Appointment saved.")
     except sqlite3.Error as e:
         print("Database Error:", e)
-
+        raise
 
 # =========================
 # SEND EMAIL CONFIRMATION
@@ -208,6 +236,7 @@ The GP Clinic Team
         print("Confirmation email sent.")
     except Exception as e:
         print("Error sending email:", e)
+        raise
 
 @app.route("/edit_appointment/<int:appointment_id>", methods=["GET", "POST"])
 def edit_appointment(appointment_id):
@@ -256,6 +285,41 @@ def edit_cancel_menu():
     appointments = conn.execute("SELECT * FROM appointments WHERE patient_name = ?", (name,)).fetchall()
     conn.close()
     return render_template("edit_cancel_menu.html", appointments=appointments)
+
+@app.route("/delete_account", methods=["POST"])
+def delete_account():
+    if "user_id" not in session:
+        return redirect(url_for("login"))
+
+    user_id = session["user_id"]
+    role = session["role"]
+    name = session["name"]
+
+    try:
+        with get_db_connection() as conn:
+            # If the user is a doctor, handle their appointments
+            if role == "doctor":
+                doctor_name = f"Dr. {name}"
+                # Option 1: Cancel all appointments
+                conn.execute("DELETE FROM appointments WHERE doctor = ?", (doctor_name,))
+                # Option 2: Reassign appointments (example: reassign to another doctor)
+                # conn.execute("UPDATE appointments SET doctor = ? WHERE doctor = ?", ("Dr. Jane Smith", doctor_name))
+
+            # Delete the user
+            conn.execute("DELETE FROM users WHERE id = ?", (user_id,))
+            conn.commit()
+
+        session.clear()
+        flash("Your account has been deleted.", "info")
+        return redirect(url_for("home"))
+    except Exception as e:
+        print(f"Error deleting account: {e}")
+        flash("An error occurred while deleting your account.", "danger")
+        return redirect(url_for("dashboard"))
+    
+def get_doctors():
+    with get_db_connection() as conn:
+        return conn.execute("SELECT name FROM users WHERE role = 'doctor'").fetchall()
 
 # =========================
 # MAIN
