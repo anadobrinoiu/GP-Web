@@ -68,16 +68,15 @@
     </style>
 </head>
 <body>
-
-
-        <div class="text-start ms-3 mt-3">
-            <a href="{{ url_for('home') }}" class="btn btn-outline-secondary">Home</a>
-        </div>
+    <div class="text-start ms-3 mt-3">
+        <a href="{{ url_for('home') }}" class="btn btn-outline-secondary">Home</a>
+    </div>
     <div class="container mt-5">
         <div class="row justify-content-center">
             <div class="col-md-6 col-lg-5">
                 <div class="form-wrapper">
                     <h2 class="text-center mb-4">Register</h2>
+                    <div id="messageContainer"></div>
                     <form id="registerForm">
                         <div class="mb-3">
                             <input type="text" class="form-control" id="name" name="name" placeholder="Full Name" required>
@@ -97,7 +96,7 @@
                         </div>
                         <button type="submit" class="btn btn-primary w-100">Register</button>
                         <div class="legal-text text-center">
-                            By registering, you agree to our <a href="#">Terms</a>, <a href="#">Privacy</a>, and <a href="#">Cookies Policy</a>.
+                            By registering, you agree to our Terms, Privacy, and Cookies Policy.
                         </div>
                     </form>
                 </div>
@@ -110,7 +109,7 @@
         </div>
     </div>
 
-    <!-- Script to handle registration -->
+    <!-- Scripts -->
     <script>
         document.getElementById("registerForm").addEventListener("submit", async (e) => {
             e.preventDefault();
@@ -122,6 +121,18 @@
                 role: document.getElementById("role").value
             };
 
+            // Client-side validation
+            if (formData.password.length < 8) {
+                const messageContainer = document.getElementById("messageContainer");
+                messageContainer.innerHTML = `
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        Password must be at least 8 characters long.
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                `;
+                return;
+            }
+
             try {
                 const res = await fetch("/register", {
                     method: "POST",
@@ -132,18 +143,32 @@
                 });
 
                 const result = await res.json();
-                alert(result.message || result.error);
+                const messageContainer = document.getElementById("messageContainer");
+                messageContainer.innerHTML = `
+                    <div class="alert alert-${res.ok ? 'success' : 'danger'} alert-dismissible fade show" role="alert">
+                        ${result.message || result.error}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                `;
 
                 if (res.ok) {
-                    window.location.href = "/login";
+                    setTimeout(() => {
+                        window.location.href = "/login";
+                    }, 2000);
                 }
 
             } catch (error) {
-                alert("Something went wrong. Please try again.");
+                const messageContainer = document.getElementById("messageContainer");
+                messageContainer.innerHTML = `
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        Something went wrong. Please try again.
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                `;
                 console.error(error);
             }
         });
     </script>
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" defer></script>
 </body>
 </html>
