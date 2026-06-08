@@ -9,7 +9,7 @@ from email.mime.multipart import MIMEMultipart
 from flask import abort
 
 app = Flask(__name__)
-app.secret_key = os.getenv("SECRET_KEY", "3b1f9a4d0e6243c6ac91e41a6b1ec23f")  # Use env var in prod
+app.secret_key = os.getenv("SECRET_KEY")  # Use env var in prod
 DB_NAME = "database.db"
 
 # =========================
@@ -203,8 +203,8 @@ def save_appointment(name, email, phone, doctor, date, time, message):
 # SEND EMAIL CONFIRMATION
 # =========================
 def send_email_confirmation(name, recipient_email, doctor, date, time):
-    sender_email = "gpsurgery25@gmail.com"
-    sender_password = "dqjvxlqgtwzfkebk"  # App password
+    sender_email = os.getenv("EMAIL_USER")
+    sender_password = os.getenv("EMAIL_PASSWORD")
 
     subject = "Appointment Confirmation – The GP Clinic"
     body = f"""
