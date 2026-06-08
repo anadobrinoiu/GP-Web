@@ -40,7 +40,6 @@ The system was inspired by the challenges faced by rural healthcare practices wh
 - HTML5
 - CSS3
 - JavaScript
-- Bootstrap
 
 ---
 
@@ -94,7 +93,6 @@ The system was inspired by the challenges faced by rural healthcare practices wh
 GP-Web/
 │
 ├── app.py
-├── database.db
 ├── requirements.txt
 ├── schema.sql
 ├── Procfile
