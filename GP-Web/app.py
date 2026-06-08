@@ -7,6 +7,9 @@ import re
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from flask import abort
+from dotenv import load_dotenv
+
+load_dotenv()
 
 app = Flask(__name__)
 app.secret_key = os.getenv("SECRET_KEY")  # Use env var in prod
