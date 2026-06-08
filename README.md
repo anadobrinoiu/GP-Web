@@ -94,8 +94,10 @@ The system was inspired by the challenges faced by rural healthcare practices wh
 GP-Web/
 │
 ├── app.py
-├── schema.sql
+├── database.db
 ├── requirements.txt
+├── schema.sql
+├── Procfile
 │
 ├── templates/
 │   ├── index.html
@@ -103,11 +105,13 @@ GP-Web/
 │   ├── register.html
 │   ├── appointments.html
 │   ├── dashboard.html
-│   └── doctor_dashboard.html
+│   ├── doctor_dashboard.html
+│   └── edit_cancel_menu.html
 │
 ├── static/
-│   ├── css/
-│   ├── js/
+│   ├── style.css
+│   ├── appointments.css
+│   ├── script.js
 │   └── images/
 │
 └── screenshots/
