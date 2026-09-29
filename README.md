@@ -59,31 +59,31 @@ The system was inspired by the challenges faced by rural healthcare practices wh
 
 ### Homepage
 
-![Homepage](screenshots/homepage.png)
+![Homepage](GP-Web/screenshots/homepage.png)
 
 ### Registration Page
 
-![Registration Page](screenshots/registration-page.png)
+![Registration Page](GP-Web/screenshots/registration-page.png)
 
 ### Login Page
 
-![Login Page](screenshots/login-page.png)
+![Login Page](GP-Web/screenshots/login-page.png)
 
 ### Appointment Booking
 
-![Appointment Booking](screenshots/patient-page.png)
+![Appointment Booking](GP-Web/screenshots/patient-page.png)
 
 ### Patient Dashboard
 
-![Patient Dashboard](screenshots/patient-dashboard.png)
+![Patient Dashboard](GP-Web/screenshots/patient-dashboard.png)
 
 ### Doctor Dashboard
 
-![Doctor Dashboard](screenshots/doctor-dashboard.png)
+![Doctor Dashboard](GP-Web/screenshots/doctor-dashboard.png)
 
 ### Calendar View
 
-![Calendar View](screenshots/calendar.png)
+![Calendar View](GP-Web/screenshots/calendar.png)
 
 ---
 
