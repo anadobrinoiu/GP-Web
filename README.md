@@ -129,7 +129,7 @@ Dissertation Title:
 
 ## Author
 
-**Ana Dobrinoiu**
+**Ana-Maria Dobrinoiu** 
 
 BSc Computer Science  
 Oxford Brookes University
